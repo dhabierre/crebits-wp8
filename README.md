@@ -12,3 +12,7 @@ Please, report any bug in order to make the application better.
 ## Requirements
 
 - Visual Studio 2015 (with Windows Phone 8.0 SDK)
+
+## Note
+
+ This project is dead...
