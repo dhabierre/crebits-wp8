@@ -1,0 +1,82 @@
+﻿<vm:MainPageViewModel
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:vm="clr-namespace:WP8.Crebits.ViewModels">
+
+	<vm:MainPageViewModel.CreditsViewModel>
+		<vm:CreditsViewModel>
+			<vm:CreditsViewModel.Credits>
+				<vm:Credit
+					Caption="Credit 1"
+					Value="4000"
+					Date="2014-01-01"
+					IsMonthly="True" />
+			</vm:CreditsViewModel.Credits>
+		</vm:CreditsViewModel>
+	</vm:MainPageViewModel.CreditsViewModel>
+
+	<vm:MainPageViewModel.DebitsViewModel>
+		<vm:DebitsViewModel>
+			<vm:DebitsViewModel.Debits>
+				<vm:Debit
+					Caption="Debit 1"
+					Value="1000"
+					Date="2014-01-01"
+					IsMonthly="True" />
+			</vm:DebitsViewModel.Debits>
+		</vm:DebitsViewModel>
+	</vm:MainPageViewModel.DebitsViewModel>
+
+	<vm:MainPageViewModel.SummaryViewModel>
+		<vm:SummaryViewModel>
+
+			<vm:SummaryViewModel.TotalCredits>
+				<sys:Double>4000</sys:Double>
+			</vm:SummaryViewModel.TotalCredits>
+
+			<vm:SummaryViewModel.TotalMonthlyCredits>
+				<sys:Double>3500</sys:Double>
+			</vm:SummaryViewModel.TotalMonthlyCredits>
+
+			<vm:SummaryViewModel.TotalNotMonthlyCredits>
+				<sys:Double>500</sys:Double>
+			</vm:SummaryViewModel.TotalNotMonthlyCredits>
+
+			<vm:SummaryViewModel.TotalDebits>
+				<sys:Double>1500</sys:Double>
+			</vm:SummaryViewModel.TotalDebits>
+
+			<vm:SummaryViewModel.TotalMonthlyDebits>
+				<sys:Double>1250</sys:Double>
+			</vm:SummaryViewModel.TotalMonthlyDebits>
+
+			<vm:SummaryViewModel.TotalNotMonthlyDebits>
+				<sys:Double>250</sys:Double>
+			</vm:SummaryViewModel.TotalNotMonthlyDebits>
+
+			<vm:SummaryViewModel.Cash>
+				<sys:Double>2500</sys:Double>
+			</vm:SummaryViewModel.Cash>
+
+		</vm:SummaryViewModel>
+	</vm:MainPageViewModel.SummaryViewModel>
+
+	<vm:MainPageViewModel.StatsViewModel>
+		<vm:StatsViewModel>
+			<vm:StatsViewModel.Categories>
+				<vm:Category
+					Caption="Loyer"
+					TotalValue="1100" />
+				<vm:Category
+					Caption="Impôts"
+					TotalValue="449" />
+				<vm:Category
+					Caption="Alimentation"
+					TotalValue="273" />
+			</vm:StatsViewModel.Categories>
+		</vm:StatsViewModel>
+
+	</vm:MainPageViewModel.StatsViewModel>
+
+</vm:MainPageViewModel>

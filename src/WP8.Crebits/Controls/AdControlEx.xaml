@@ -1,0 +1,57 @@
+﻿<UserControl
+	x:Class="WP8.Crebits.Controls.AdControlEx"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:localConverters="clr-namespace:WP8.Toolkit.Converters;assembly=WP8.Toolkit"
+	xmlns:gads="clr-namespace:GoogleAds;assembly=GoogleAds"
+	mc:Ignorable="d"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	d:DesignHeight="155"
+	d:DesignWidth="480">
+
+	<UserControl.Resources>
+
+		<localConverters:UpperTextConverter
+			x:Key="UpperTextConverter" />
+
+	</UserControl.Resources>
+
+	<Grid
+		Height="75"
+		Width="480"
+		Background="Firebrick">
+
+		<Border
+			x:Name="PubBorder"
+			Height="75"
+			Width="480"
+			Tap="PubBorder_Tap">
+
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition
+						Height="*" />
+				</Grid.RowDefinitions>
+
+				<TextBlock
+					Grid.Row="0"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Foreground="White"
+					Text="{Binding LocalizedResources.AdsCaption, Source={StaticResource LocalizedStrings}, Converter={StaticResource UpperTextConverter}}" />
+
+			</Grid>
+
+		</Border>
+
+		<Grid
+			Grid.Row="1"
+			x:Name="AdsGrid" />
+
+	</Grid>
+
+</UserControl>

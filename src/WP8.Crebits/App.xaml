@@ -1,0 +1,34 @@
+﻿<Application
+	x:Class="WP8.Crebits.App"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:toolkitHelpers="clr-namespace:WP8.Toolkit.Helpers;assembly=WP8.Toolkit"
+	xmlns:local="clr-namespace:WP8.Crebits">
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary
+					Source="Styles/PivotStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<local:LocalizedStrings
+				xmlns:local="clr-namespace:WP8.Crebits.Resources"
+				x:Key="LocalizedStrings" />
+		</ResourceDictionary>
+	</Application.Resources>
+
+	<Application.ApplicationLifetimeObjects>
+
+		<shell:PhoneApplicationService
+			Launching="Application_Launching"
+			Closing="Application_Closing"
+			Activated="Application_Activated"
+			Deactivated="Application_Deactivated" />
+
+		<!--<local:XNAFrameworkDispatcherService />-->
+
+	</Application.ApplicationLifetimeObjects>
+
+</Application>

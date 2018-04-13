@@ -1,0 +1,27 @@
+﻿Install Toolkit:
+----------------------------------------------------------------------------------------------------------------
+
+Tools > NuGet Package Manager > Package Manager Console > install-package WPToolkit
+
+xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+
+<toolkit:ListPicker>
+  <toolkit:ListPickerItem Content="Debit" />
+  <toolkit:ListPickerItem Content="Credit" />
+</toolkit:ListPicker>
+
+For GoogleAds :
+
+ 1. Add GoogleAds reference
+
+ 2. Add Controls\AdControlEx.xaml to the project WP8.Crebits
+
+ 3. Add <local:XNAFrameworkDispatcherService /> to App.xaml
+
+ 4. Add the following capacities:
+	<Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+	<Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
+	<Capability Name="ID_CAP_NETWORKING" />
+	<Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+	<Capability Name="ID_CAP_IDENTITY_USER" />
+	<Capability Name="ID_CAP_SENSORS" />

@@ -1,0 +1,242 @@
+<phone:PhoneApplicationPage 
+	x:Class="WP8.Crebits.Pages.OptionsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:WP8.Crebits.ViewModels"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:toolkitWpControls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:toolkitConverters="clr-namespace:WP8.Toolkit.Converters;assembly=WP8.Toolkit"
+	xmlns:toolkitControls="clr-namespace:WP8.Toolkit.Controls;assembly=WP8.Toolkit"
+	xmlns:localConverters="clr-namespace:WP8.Crebits.Converters"
+	xmlns:localControls="clr-namespace:WP8.Crebits.Controls"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait"
+	Orientation="Portrait"
+	mc:Ignorable="d"
+	d:DesignHeight="696"
+	d:DesignWidth="480"
+	shell:SystemTray.IsVisible="True">
+
+	<phone:PhoneApplicationPage.DataContext>
+		<vm:OptionsPageViewModel />
+	</phone:PhoneApplicationPage.DataContext>
+
+	<phone:PhoneApplicationPage.Resources>
+
+		<toolkitConverters:LowerTextConverter
+			x:Key="LowerTextConverter" />
+		<toolkitConverters:UpperTextConverter
+			x:Key="UpperTextConverter" />
+		<toolkitConverters:BoolToOnOffTextConverter
+			x:Key="BoolToOnOffTextConverter" />
+		<toolkitConverters:IsNullOrEmptyVisibilityConverter
+			x:Key="IsNullOrEmptyVisibilityConverter" />
+
+		<localConverters:OnOffToLightDarkConverter
+			x:Key="OnOffToLightDarkConverter" />
+
+	</phone:PhoneApplicationPage.Resources>
+
+	<Grid
+		x:Name="LayoutRoot"
+		Background="Transparent">
+
+		<phone:Pivot
+			x:Name="Pivot"
+			Title="{Binding ApplicationTitle, Converter={StaticResource UpperTextConverter}}"
+			Style="{StaticResource PivotStyle}">
+
+			<!-- Options -->
+			<phone:PivotItem
+				Header="{Binding LocalizedResources.Options, Source={StaticResource LocalizedStrings}, Converter={StaticResource LowerTextConverter}}">
+
+				<ScrollViewer>
+					<StackPanel>
+
+                        <TextBlock
+							Margin="12 0 12 12"
+							Text="{Binding LocalizedResources.Theme, Source={StaticResource LocalizedStrings}}"
+							Foreground="{StaticResource PhoneAccentBrush}"
+							Style="{StaticResource PhoneTextLargeStyle}" />
+
+                        <toolkit:ToggleSwitch
+							Header="{Binding LocalizedResources.UseLightTheme, Source={StaticResource LocalizedStrings}}"
+							IsChecked="{Binding IsLightTheme, Mode=TwoWay}">
+                            <toolkit:ToggleSwitch.HeaderTemplate>
+                                <DataTemplate>
+                                    <ContentControl 
+										Foreground="{StaticResource PhoneForegroundBrush}" 
+										Content="{Binding}" />
+                                </DataTemplate>
+                            </toolkit:ToggleSwitch.HeaderTemplate>
+                            <toolkit:ToggleSwitch.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <ContentControl 
+											HorizontalAlignment="Left" 
+											FontSize="{StaticResource PhoneFontSizeMediumLarge}"
+											Content="{Binding Path=., Converter={StaticResource OnOffToLightDarkConverter}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ToggleSwitch.ContentTemplate>
+                        </toolkit:ToggleSwitch>
+
+                        <TextBlock
+							Margin="12 0 12 12"
+							Text="{Binding LocalizedResources.LiveTile, Source={StaticResource LocalizedStrings}}"
+							Foreground="{StaticResource PhoneAccentBrush}"
+							Style="{StaticResource PhoneTextLargeStyle}" />
+
+						<toolkit:ToggleSwitch
+							Header="{Binding LocalizedResources.DisplayDecimalDigitsOnTheLiveTile, Source={StaticResource LocalizedStrings}}"
+							IsChecked="{Binding WithLiveTileDecimalDigits, Mode=TwoWay}">
+							<toolkit:ToggleSwitch.HeaderTemplate>
+								<DataTemplate>
+									<ContentControl 
+										Foreground="{StaticResource PhoneForegroundBrush}" 
+										Content="{Binding}" />
+								</DataTemplate>
+							</toolkit:ToggleSwitch.HeaderTemplate>
+							<toolkit:ToggleSwitch.ContentTemplate>
+								<DataTemplate>
+									<StackPanel>
+										<ContentControl 
+											HorizontalAlignment="Left" 
+											FontSize="{StaticResource PhoneFontSizeMediumLarge}"
+											Content="{Binding}" />
+									</StackPanel>
+								</DataTemplate>
+							</toolkit:ToggleSwitch.ContentTemplate>
+						</toolkit:ToggleSwitch>
+
+						<TextBlock
+							Margin="12 -12 12 0"
+							Text="{Binding LocalizedResources.MinCashLimitValue, Source={StaticResource LocalizedStrings}}"
+							Style="{StaticResource PhoneTextNormalStyle}" />
+
+						<TextBox
+							InputScope="Number"
+							Text="{Binding MinCashLimitValue, Mode=TwoWay}" />
+
+						<TextBlock
+							Margin="12 12 12 -10"
+							Text="{Binding LocalizedResources.MinCashLimitColor, Source={StaticResource LocalizedStrings}}"
+							Style="{StaticResource PhoneTextNormalStyle}" />
+
+						<toolkitWpControls:ListPicker
+							ItemsSource="{Binding MinCashLimitColors}"
+							SelectedItem="{Binding SelectedMinCashLimitColor, Mode=TwoWay}"
+							ExpansionMode="FullScreenOnly"
+							SelectionMode="Single">
+							<toolkitWpControls:ListPicker.FullModeItemTemplate>
+								<DataTemplate>
+									<TextBlock
+										Margin="0 12 12 12"
+										TextWrapping="Wrap" 
+										Text="{Binding}" 
+										Style="{StaticResource PhoneTextTitle2Style}" />
+								</DataTemplate>
+							</toolkitWpControls:ListPicker.FullModeItemTemplate>
+						</toolkitWpControls:ListPicker>
+
+						<TextBlock
+							Margin="12 20 12 12"
+							Text="{Binding LocalizedResources.ExportData, Source={StaticResource LocalizedStrings}}"
+							Foreground="{StaticResource PhoneAccentBrush}"
+							Style="{StaticResource PhoneTextLargeStyle}" />
+
+						<TextBlock
+							Margin="12 12 12 0"
+							Text="{Binding LocalizedResources.Email, Source={StaticResource LocalizedStrings}}"
+							Style="{StaticResource PhoneTextNormalStyle}" />
+
+						<TextBlock
+							Margin="12 0"
+							Text="{Binding LocalizedResources.ExportDataEmailOptionNote, Source={StaticResource LocalizedStrings}}"
+							TextWrapping="Wrap"
+							Style="{StaticResource PhoneTextSmallStyle}"
+							FontSize="16" />
+
+						<toolkitControls:TextBoxUpdate
+							InputScope="EmailUserName"
+							Text="{Binding ExportDataEmail, Mode=TwoWay}" />
+
+					</StackPanel>
+
+				</ScrollViewer>
+
+			</phone:PivotItem>
+
+			<!-- Actions -->
+			<phone:PivotItem
+				Header="{Binding LocalizedResources.Actions, Source={StaticResource LocalizedStrings}, Converter={StaticResource LowerTextConverter}}">
+
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="Auto" />
+                        <RowDefinition
+							Height="Auto" />
+                        <RowDefinition
+							Height="*" />
+					</Grid.RowDefinitions>
+
+					<Button
+						Grid.Row="0"
+						Click="Purge_Click">
+						<Button.Content>
+							<StackPanel
+								Orientation="Vertical">
+
+								<TextBlock
+									HorizontalAlignment="Center"
+									Text="{Binding LocalizedResources.Purge, Source={StaticResource LocalizedStrings}}" />
+
+								<TextBlock
+									Margin="0 8"
+									HorizontalAlignment="Center"
+									Text="{Binding LocalizedResources.PurgeExplaination, Source={StaticResource LocalizedStrings}}"
+									TextWrapping="Wrap"
+									Style="{StaticResource PhoneTextSmallStyle}"
+									FontSize="16" />
+
+							</StackPanel>
+						</Button.Content>
+					</Button>
+
+                    <StackPanel
+                        Grid.Row="1">
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="{Binding LocalizedResources.PurgeOptionNote, Source={StaticResource LocalizedStrings}}"
+						TextWrapping="Wrap"
+						Style="{StaticResource PhoneTextSmallStyle}"
+						FontSize="16" />
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+						TextWrapping="Wrap"
+						Style="{StaticResource PhoneTextSmallStyle}"
+						FontSize="16">
+						<Run Text="{Binding LocalizedResources.ExportDataOptionNote, Source={StaticResource LocalizedStrings}}" />
+						<Run Text="{Binding LocalizedResources.ExportData, Source={StaticResource LocalizedStrings}}" />
+                    </TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+
+			</phone:PivotItem>
+
+		</phone:Pivot>
+
+	</Grid>
+
+</phone:PhoneApplicationPage>

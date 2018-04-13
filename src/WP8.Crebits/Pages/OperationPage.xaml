@@ -1,0 +1,306 @@
+<phone:PhoneApplicationPage 
+	x:Class="WP8.Crebits.Pages.OperationPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:WP8.Crebits.ViewModels"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:toolkitWpControls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:toolkitConverters="clr-namespace:WP8.Toolkit.Converters;assembly=WP8.Toolkit"
+	xmlns:toolkitControls="clr-namespace:WP8.Toolkit.Controls;assembly=WP8.Toolkit"
+	xmlns:localConverters="clr-namespace:WP8.Crebits.Converters"
+	xmlns:localControls="clr-namespace:WP8.Crebits.Controls"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait"
+	Orientation="Portrait"
+	mc:Ignorable="d"
+	d:DesignHeight="696"
+	d:DesignWidth="480"
+	shell:SystemTray.IsVisible="True">
+
+	<phone:PhoneApplicationPage.DataContext>
+		<vm:OperationPageViewModel />
+	</phone:PhoneApplicationPage.DataContext>
+
+	<phone:PhoneApplicationPage.Resources>
+
+		<toolkitConverters:LowerTextConverter
+			x:Key="LowerTextConverter" />
+		<toolkitConverters:UpperTextConverter
+			x:Key="UpperTextConverter" />
+		<toolkitConverters:BoolToVisibilityConverter
+			x:Key="BoolToVisibilityConverter" />
+		<toolkitConverters:BoolToVisibilityConverter
+			x:Key="NotBoolToVisibilityConverter"
+			Not="True" />
+		<toolkitConverters:IsNullOrEmptyConverter
+			x:Key="IsNullOrEmptyConverter" />
+		<toolkitConverters:IsNullOrEmptyVisibilityConverter
+			x:Key="IsNullOrEmptyVisibilityConverter" />
+
+		<localConverters:MoneyToStringConverter
+			x:Key="MoneyToStringConverter" />
+		<localConverters:OverrideValueVisibilityConverter
+			x:Key="OverrideValueVisibilityConverter" />
+		<localConverters:OverrideValueCaptionConverter
+			x:Key="OverrideValueCaptionConverter" />
+		<localConverters:ValueTextBoxForegroundConverter
+			x:Key="ValueTextBoxForegroundConverter" />
+
+		<!--<Style 
+			TargetType="toolkit:DatePicker">
+			<Setter
+				Property="Template">
+				<Setter.Value>
+					<ControlTemplate
+						TargetType="toolkitWpControls:DatePicker">
+						<StackPanel>
+							<ContentControl
+								ContentTemplate="{TemplateBinding HeaderTemplate}"
+								Content="{TemplateBinding Header}"
+								Foreground="{StaticResource PhoneSubtleBrush}"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="12,0,12,-4" />
+							<Button
+								x:Name="DateTimeButton"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								Background="{TemplateBinding Background}"
+								Content="{TemplateBinding ValueString}"
+								Foreground="{TemplateBinding Foreground}"
+								FontFamily="{TemplateBinding FontFamily}"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								Height="78"
+								FontSize="{TemplateBinding FontSize}" />
+						</StackPanel>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>-->
+
+		<BitmapImage
+			x:Key="MonthlyImage"
+			UriSource="/Assets/Pictos/Monthly.png"
+			DecodePixelHeight="12"
+			DecodePixelWidth="20" />
+
+		<BitmapImage
+			x:Key="ExclamationRedImage"
+			UriSource="/Assets/Pictos/ExclamationRed.png"
+			DecodePixelHeight="12"
+			DecodePixelWidth="3" />
+
+		<BitmapImage
+			x:Key="ExclamationImage"
+			UriSource="/Assets/Pictos/Exclamation.png"
+			DecodePixelHeight="12"
+			DecodePixelWidth="3" />
+
+	</phone:PhoneApplicationPage.Resources>
+
+	<ScrollViewer>
+		<Grid
+			x:Name="LayoutRoot"
+			Background="Transparent">
+			<Grid.RowDefinitions>
+				<RowDefinition
+					Height="Auto" />
+				<RowDefinition
+					Height="*" />
+			</Grid.RowDefinitions>
+
+            <!-- Header -->
+            <localControls:HeaderPageControl
+			    Grid.Row="0" />
+
+            <StackPanel
+			    Grid.Row="1"
+			    Margin="12 0">
+
+                <StackPanel>
+                    <RadioButton
+					    Foreground="Red"
+					    Content="{Binding LocalizedResources.Debit, Source={StaticResource LocalizedStrings}}"
+					    IsChecked="{Binding IsDebit, Mode=TwoWay}"
+					    IsEnabled="{Binding CanChangeOperationType, Mode=TwoWay}" />
+                    <RadioButton
+					    Foreground="Green"
+					    Content="{Binding LocalizedResources.Credit, Source={StaticResource LocalizedStrings}}"
+					    IsChecked="{Binding IsCredit, Mode=TwoWay}"
+					    IsEnabled="{Binding CanChangeOperationType, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel
+				    Margin="0 4 0 0"
+				    Orientation="Horizontal">
+                    <CheckBox
+					    IsChecked="{Binding IsMonthly, Mode=TwoWay}">
+                        <CheckBox.Content>
+                            <TextBlock
+							    Margin="3 0 0 0"
+							    VerticalAlignment="Center"
+							    Text="{Binding LocalizedResources.MonthlyQuestion, Source={StaticResource LocalizedStrings}}"
+							    Style="{StaticResource PhoneTextNormalStyle}" />
+                        </CheckBox.Content>
+                    </CheckBox>
+                    <Rectangle
+                        Margin="-2 4 0 0"
+                        VerticalAlignment="Center"
+                        Fill="{StaticResource PhoneForegroundBrush}"
+                        Width="20"
+                        Height="12">
+                        <Rectangle.OpacityMask>
+                            <ImageBrush
+                                ImageSource="{StaticResource MonthlyImage}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </StackPanel>
+
+                <toolkitWpControls:DatePicker
+				    Margin="0 8 0 0"
+				    Value="{Binding Date, Mode=TwoWay}"
+				    Visibility="{Binding IsMonthly, Converter={StaticResource NotBoolToVisibilityConverter}}" />
+
+                <Grid
+				    Visibility="{Binding IsDebit, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <toolkitWpControls:ListPicker
+					    Margin="12 8 12 12"
+					    ItemsSource="{Binding Categories}"
+					    SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+					    DisplayMemberPath="Caption"
+					    ExpansionMode="FullScreenOnly"
+					    SelectionMode="Single"
+					    Visibility="{Binding Categories, Converter={StaticResource IsNullOrEmptyVisibilityConverter}}">
+                        <toolkitWpControls:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+								    Margin="0 12 12 12"
+								    TextWrapping="Wrap" 
+								    Text="{Binding Caption}" 
+								    Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkitWpControls:ListPicker.FullModeItemTemplate>
+                    </toolkitWpControls:ListPicker>
+                </Grid>
+
+                <Grid
+				    Margin="0 12 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+						    Width="5*" />
+                        <ColumnDefinition
+						    Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+					    Grid.Row="0"
+					    Grid.Column="0"
+					    Text="{Binding LocalizedResources.Caption, Source={StaticResource LocalizedStrings}}"
+					    Style="{StaticResource PhoneTextNormalStyle}" />
+                    <toolkitControls:TextBoxUpdate
+					    Grid.Row="1"
+					    Grid.Column="0"
+					    MaxLength="48"
+					    Text="{Binding Caption, Mode=TwoWay}" />
+
+                    <TextBlock
+					    Grid.Row="0"
+					    Grid.Column="1"
+					    Text="{Binding LocalizedResources.Value, Source={StaticResource LocalizedStrings}}"
+					    Style="{StaticResource PhoneTextNormalStyle}" />
+                    <!-- Cannot use toolkitControls:TextBoxUpdate because of validation (coma issue) -->
+                    <TextBox
+					    Grid.Row="1"
+					    Grid.Column="1"
+					    x:Name="ValueTextBox"
+					    InputScope="Number"
+					    Text="{Binding Value, Mode=TwoWay, Converter={StaticResource MoneyToStringConverter}}"
+					    Foreground="{Binding OverrideValue, Converter={StaticResource ValueTextBoxForegroundConverter}}" />
+
+                </Grid>
+
+                <Grid
+				    Margin="0 12 0 0"
+				    Visibility="{Binding ., Converter={StaticResource OverrideValueVisibilityConverter}}">
+                    <Grid
+					    Visibility="{Binding IsMonthly, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+							    Width="5*" />
+                            <ColumnDefinition
+							    Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+						    Grid.Column="0"
+						    VerticalAlignment="Center"
+						    Text="{Binding ., Converter={StaticResource OverrideValueCaptionConverter}}"
+                            TextAlignment="Right"
+						    Style="{StaticResource PhoneTextNormalStyle}" />
+
+                        <!-- Cannot use toolkitControls:TextBoxUpdate because of validation (coma issue) -->
+                        <TextBox
+						    Grid.Column="1"
+						    x:Name="OverrideValueTextBox"
+						    InputScope="Number"
+						    Text="{Binding OverrideValue, Mode=TwoWay, Converter={StaticResource MoneyToStringConverter}}" />
+
+                        <Image
+						    Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Margin="0 0 24 0"
+                            Width="4"
+                            Height="16"
+                            Source="{StaticResource ExclamationImage}" />
+
+                    </Grid>
+                </Grid>
+
+                <StackPanel
+				    Margin="0 4 0 0"
+				    Orientation="Horizontal">
+                    <CheckBox
+					    IsChecked="{Binding IsDisabled, Mode=TwoWay}">
+                        <CheckBox.Content>
+                            <TextBlock
+							    Margin="3 0 0 0"
+							    VerticalAlignment="Center"
+							    Text="{Binding LocalizedResources.DisabledQuestion, Source={StaticResource LocalizedStrings}}"
+							    Style="{StaticResource PhoneTextNormalStyle}" />
+                        </CheckBox.Content>
+                    </CheckBox>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar
+			IsVisible="True"
+			IsMenuEnabled="False">
+
+			<shell:ApplicationBarIconButton 
+				IconUri="/Assets/AppBar/Check.png" 
+				Text="save"
+				Click="AppBarCheckButton_Click" />
+
+			<shell:ApplicationBarIconButton 
+				IconUri="/Assets/AppBar/Cancel.png" 
+				Text="cancel" 
+				Click="AppBarCancelButton_Click" />
+
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>
